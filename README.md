@@ -1,4 +1,4 @@
-# Gestão de Projetos V2
+# Gestão de Projetos V1
 
 Este é um projeto de estudo chamado "Gestão de Projetos V2". Ele consiste em uma API desenvolvida em ASP.NET Core para a gestão de projetos, utilizando um conjunto abrangente de tecnologias e ferramentas, incluindo:
 
