@@ -1,0 +1,96 @@
+# Arquivos gerados pela compilação
+bin/
+obj/
+
+# Dependências
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+*.log
+*.vscode/
+.vs/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp
+*.user
+*.userosscache
+*.suo
+*.cache
+*.sln.docstates
+
+# Diretórios gerados pela compilação
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[~$]*
+[Tt]est[Rr]esult*/
+history.txt
+ReSharper*/
+
+# Arquivos de projeto
+*.xproj
+*.swp
+*.sln
+*.csproj.user
+*.csproj.dotsettings.user
+*.suo
+*.user
+*.vssscc
+*.vs10x
+*.dotCover
+*.resharper
+*.dotsettings
+*.teamcity
+
+# Arquivos de configuração
+appsettings.json
+appsettings.Development.json
+
+# Arquivos sensíveis
+*.pfx
+
+# Logs e rastreamentos
+*.log
+*.log.*
+*.trace
+
+# Diretórios de publicação
+publish/
+wwwroot/
+
+# Ferramentas
+_ReSharper*/
+*.resharper
+*.sln.docstates
+
+# Pacotes
+packages/
+*.nupkg
+# Arquivos do Visual Studio
+.vscode/
+.vs/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates

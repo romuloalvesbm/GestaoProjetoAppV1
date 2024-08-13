@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\Refit\**" />
+    <EmbeddedResource Remove="Interfaces\Refit\**" />
+    <None Remove="Interfaces\Refit\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="7.1.2" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <ProjectReference Include="..\GestaoProjeto.CrossCutting.Exception\GestaoProjeto.CrossCutting.Exception.csproj" />
+    <ProjectReference Include="..\GestaoProjeto.Infra.Domain\GestaoProjeto.Infra.Domain.csproj" />
+    <ProjectReference Include="..\GestaoProjeto.Presentation.Contracts\GestaoProjeto.Presentation.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
