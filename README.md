@@ -1,4 +1,4 @@
-Gestão de Projeto V2
+Gestão de Projetos V2
 Este é um projeto de estudo chamado "Gestão de Projetos V2". Ele consiste em uma API desenvolvida em ASP.NET Core para a gestão de projetos, utilizando um conjunto abrangente de tecnologias e ferramentas, incluindo:
 
 Banco de Dados: PostgreSQL
@@ -17,6 +17,6 @@ Este projeto serve como uma base inicial que pode ser aprimorada conforme necess
 Pré-requisitos
 Certifique-se de ter instalado o seguinte:
 
-.NET Core SDK
-Visual Studio Code (opcional)
-Entity Framework Core CLI (opcional)
+.NET Core SDK - Para compilar e executar a aplicação.
+Visual Studio Code (opcional) - Um editor de código leve e poderoso para desenvolvimento.
+Entity Framework Core CLI (opcional) - Para executar comandos de migração e outras operações do Entity Framework Core.
