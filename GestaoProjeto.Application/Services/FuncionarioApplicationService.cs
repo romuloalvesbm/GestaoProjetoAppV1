@@ -3,8 +3,8 @@ using GestaoProjeto.Application.Extensions;
 using GestaoProjeto.Application.Interfaces.Services;
 using GestaoProjeto.Infra.Domain.Funcionarios;
 using GestaoProjeto.Presentation.Contracts;
-using GestaoProjeto.Presentation.Contracts.Dtos;
 using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Request;
+using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Response;
 
 
 namespace GestaoProjeto.Application.Services
@@ -72,7 +72,7 @@ namespace GestaoProjeto.Application.Services
             }
         }
 
-        public async Task<Result<ICollection<FuncionarioDto>>> GetAll(FuncionarioGridRequest model)
+        public async Task<Result<ICollection<FuncionarioResponse>>> GetAll(FuncionarioGridRequest model)
         {
             var query = (await _funcionarioRepository.GetAll(x => string.IsNullOrEmpty(model.Nome) || (x.Nome != null && x.Nome.ToLower().StartsWith(model.Nome))))
                                           .AsQueryable()
@@ -80,20 +80,20 @@ namespace GestaoProjeto.Application.Services
                                            .Skip(model.CurrentPage * model.PageSize)
                                            .Take(model.PageSize);
 
-            ICollection<FuncionarioDto> dto = query.Select(x => new FuncionarioDto
+            ICollection<FuncionarioResponse> dto = query.Select(x => new FuncionarioResponse
             {
                 FuncionarioId = x.Id,
                 Nome = x.Nome,
-                Supervisor = x.Supervisor == null ? null : new FuncionarioDto
+                Supervisor = x.Supervisor == null ? null : new FuncionarioResponse
                 {
                     FuncionarioId = x.Supervisor.Id,
                     Nome = x.Supervisor.Nome
                 },
-                FuncionarioDtos = x.Funcionarios != null ? x.Funcionarios.Select(y => new FuncionarioDto
+                FuncionarioDtos = x.Funcionarios != null ? x.Funcionarios.Select(y => new FuncionarioResponse
                 {
                     FuncionarioId = y.Id,
                     Nome = y.Nome
-                }).ToList() : new List<FuncionarioDto>()
+                }).ToList() : new List<FuncionarioResponse>()
             }).ToList();
 
             return Result.Ok(dto);
@@ -102,16 +102,16 @@ namespace GestaoProjeto.Application.Services
             //return Result.Ok(_mapper.Map<ICollection<FuncionarioDto>>(query));
         }
 
-        public async Task<Result<FuncionarioDto>> GetById(Guid id)
+        public async Task<Result<FuncionarioResponse>> GetById(Guid id)
         {
             var funcionario = await _funcionarioRepository.GetById(id);
 
             if (funcionario == null)
             {
-                return Result.Fail<FuncionarioDto>("Funcionário não encontrado.");
+                return Result.Fail<FuncionarioResponse>("Funcionário não encontrado.");
             }
 
-            return Result.Ok(_mapper.Map<FuncionarioDto>(funcionario));
+            return Result.Ok(_mapper.Map<FuncionarioResponse>(funcionario));
         }
     }
 }

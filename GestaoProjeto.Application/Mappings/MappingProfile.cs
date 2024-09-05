@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using GestaoProjeto.Infra.Domain.Funcionarios;
-using GestaoProjeto.Presentation.Contracts.Dtos;
 using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Request;
+using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +25,9 @@ namespace GestaoProjeto.Application.Mappings
             CreateMap<FuncionarioEdicaoRequest, Funcionario>()
                  .AfterMap((src, dest) => dest.Update(src.FuncionarioId, src.Nome, src.SupervisorId, null, null));
 
-            CreateMap<FuncionarioExclusaoRequest, FuncionarioDto>();
+            CreateMap<FuncionarioExclusaoRequest, FuncionarioResponse>();
 
-            CreateMap<Funcionario, FuncionarioDto>()
+            CreateMap<Funcionario, FuncionarioResponse>()
                 .ForMember(dest => dest.FuncionarioId, map => map.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Supervisor, map => map.MapFrom(src => src.Supervisor))
                 .ForMember(dest => dest.FuncionarioDtos, map => map.MapFrom(src => src.Funcionarios))

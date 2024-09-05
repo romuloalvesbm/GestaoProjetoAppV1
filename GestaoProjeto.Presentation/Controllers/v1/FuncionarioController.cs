@@ -1,10 +1,10 @@
 ﻿using Asp.Versioning;
 using GestaoProjeto.Application.Interfaces.Services;
 using GestaoProjeto.Presentation.Contracts;
-using GestaoProjeto.Presentation.Contracts.Dtos;
 using GestaoProjeto.Presentation.Contracts.Extensions;
 using GestaoProjeto.Presentation.Contracts.v1.Common;
 using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Request;
+using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +26,7 @@ namespace GestaoProjeto.Presentation.Controllers.v1
         /// Serviço para cadastrar Funcionario.
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(FuncionarioDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FuncionarioResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Post([FromBody] FuncionarioCadastroRequest request)
@@ -86,10 +86,10 @@ namespace GestaoProjeto.Presentation.Controllers.v1
         /// Serviço para listar Funcionario.
         /// </summary>
         [HttpGet("GetAllFuncionario")]
-        [ProducesResponseType(typeof(FuncionarioDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FuncionarioResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PagedList<FuncionarioDto>>> GetAllFuncionario([FromQuery] FuncionarioGridRequest request)
+        public async Task<ActionResult<PagedList<FuncionarioResponse>>> GetAllFuncionario([FromQuery] FuncionarioGridRequest request)
         {
 
             try
@@ -110,7 +110,7 @@ namespace GestaoProjeto.Presentation.Controllers.v1
         [ProducesResponseType(typeof(Results), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Result<FuncionarioDto>>> GetFuncionario([FromQuery] Guid id)
+        public async Task<ActionResult<Result<FuncionarioResponse>>> GetFuncionario([FromQuery] Guid id)
         {
             try
             {

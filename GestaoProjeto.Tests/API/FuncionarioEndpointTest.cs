@@ -1,5 +1,4 @@
 ﻿using GestaoProjeto.Application.Interfaces.Services;
-using GestaoProjeto.Presentation.Contracts.Dtos;
 using GestaoProjeto.Presentation.Contracts;
 using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Request;
 using GestaoProjeto.Presentation.Controllers.v1;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Bogus;
 using GestaoProjeto.Presentation.Contracts.v1.Common;
 using GestaoProjeto.Infra.Domain.Funcionarios;
+using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Response;
 
 
 namespace GestaoProjeto.Tests.API
@@ -19,8 +19,8 @@ namespace GestaoProjeto.Tests.API
         private readonly FuncionarioController _controller;
         private readonly FuncionarioCadastroRequest _funcionarioCadastroRequestMock;
         private readonly FuncionarioEdicaoRequest _funcionarioEdicaoRequestMock;
-        private readonly FuncionarioDto _funcionarioDtoMock;
-        private readonly List<FuncionarioDto> _listFuncionarioDtoMock;
+        private readonly FuncionarioResponse _funcionarioDtoMock;
+        private readonly List<FuncionarioResponse> _listFuncionarioDtoMock;
         private readonly Faker _faker = new Faker();
 
         public FuncionarioEndpointTest()
@@ -34,14 +34,14 @@ namespace GestaoProjeto.Tests.API
                 SupervisorId = _faker.Random.Guid()
             };
 
-            _funcionarioDtoMock = new FuncionarioDto
+            _funcionarioDtoMock = new FuncionarioResponse
             {
                 FuncionarioId = _faker.Random.Guid(),
                 Nome = _faker.Person.FullName,
                 SupervisorId = _faker.Random.Guid()
             };
 
-            _listFuncionarioDtoMock = new Faker<FuncionarioDto>("pt_BR")
+            _listFuncionarioDtoMock = new Faker<FuncionarioResponse>("pt_BR")
                               .RuleFor(x => x.Nome, f => f.Name.FullName())
                               .RuleFor(x => x.FuncionarioId, f => f.Random.Guid())
                               .Generate(2);
@@ -131,7 +131,7 @@ namespace GestaoProjeto.Tests.API
             Assert.NotNull(okResult);
             Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
 
-            var resultValue = okResult.Value as Result<FuncionarioDto>;
+            var resultValue = okResult.Value as Result<FuncionarioResponse>;
             Assert.NotNull(resultValue);
             Assert.True(resultValue.Success);
             Assert.Equal(_funcionarioDtoMock, resultValue.Value);
@@ -141,7 +141,7 @@ namespace GestaoProjeto.Tests.API
         public async Task GetFuncionarioBadRequest()
         {
             // Arrange
-            var result = Result.Fail<FuncionarioDto>("Funcionário não encontrado.");
+            var result = Result.Fail<FuncionarioResponse>("Funcionário não encontrado.");
 
             _funcionarioApplicationServiceMock.Setup(service => service.GetById(_funcionarioDtoMock.FuncionarioId)).ReturnsAsync(result);
 
@@ -152,7 +152,7 @@ namespace GestaoProjeto.Tests.API
             Assert.NotNull(okResult);
             Assert.Equal(StatusCodes.Status400BadRequest, okResult.StatusCode);
 
-            var resultValue = okResult.Value as Result<FuncionarioDto>;
+            var resultValue = okResult.Value as Result<FuncionarioResponse>;
             Assert.NotNull(resultValue);
             Assert.False(resultValue.Success);
             Assert.Equal(result.Message, resultValue.Message);
@@ -183,7 +183,7 @@ namespace GestaoProjeto.Tests.API
         {
             var gridRequest = new FuncionarioGridRequest();
             // Arrange
-            var result = Result.Ok<ICollection<FuncionarioDto>>(_listFuncionarioDtoMock);
+            var result = Result.Ok<ICollection<FuncionarioResponse>>(_listFuncionarioDtoMock);
 
             _funcionarioApplicationServiceMock.Setup(service => service.GetAll(It.IsAny<FuncionarioGridRequest>())).ReturnsAsync(result);
 
@@ -194,7 +194,7 @@ namespace GestaoProjeto.Tests.API
             Assert.NotNull(okResult);
             Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
 
-            var resultValue = okResult.Value as PagedList<FuncionarioDto>;
+            var resultValue = okResult.Value as PagedList<FuncionarioResponse>;
             Assert.NotNull(resultValue);
             Assert.Equal(resultValue.ResultSet.Count, _listFuncionarioDtoMock.Count);
             Assert.Equal(_listFuncionarioDtoMock, resultValue.ResultSet);
@@ -205,7 +205,7 @@ namespace GestaoProjeto.Tests.API
         {
             var gridRequest = new FuncionarioGridRequest();
             // Arrange
-            var result = Result.Ok<ICollection<FuncionarioDto>>(new List<FuncionarioDto>());
+            var result = Result.Ok<ICollection<FuncionarioResponse>>(new List<FuncionarioResponse>());
 
             _funcionarioApplicationServiceMock.Setup(service => service.GetAll(It.IsAny<FuncionarioGridRequest>())).ReturnsAsync(result);
 
@@ -216,7 +216,7 @@ namespace GestaoProjeto.Tests.API
             Assert.NotNull(okResult);
             Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
 
-            var resultValue = okResult.Value as PagedList<FuncionarioDto>;
+            var resultValue = okResult.Value as PagedList<FuncionarioResponse>;
             Assert.NotNull(resultValue);
             Assert.Empty(resultValue.ResultSet);
 

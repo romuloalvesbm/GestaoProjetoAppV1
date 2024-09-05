@@ -2,7 +2,6 @@
 using Bogus;
 using GestaoProjeto.Application.Services;
 using GestaoProjeto.Infra.Domain.Funcionarios;
-using GestaoProjeto.Presentation.Contracts.Dtos;
 using GestaoProjeto.Presentation.Contracts;
 using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Request;
 using Moq;
@@ -14,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bogus.DataSets;
 using System.Collections.ObjectModel;
+using GestaoProjeto.Presentation.Contracts.v1.Models.Funcionarios.Response;
 
 namespace GestaoProjeto.Tests.Application
 {
@@ -28,8 +28,8 @@ namespace GestaoProjeto.Tests.Application
         private readonly FuncionarioExclusaoRequest _funcionarioExclusaoRequest;
         private readonly FuncionarioEdicaoRequest _funcionarioEdicaoRequest;
         private readonly Funcionario _funcionario;
-        private readonly FuncionarioDto _funcionarioDto;
-        private readonly List<FuncionarioDto> _listFuncionarioDto;
+        private readonly FuncionarioResponse _funcionarioDto;
+        private readonly List<FuncionarioResponse> _listFuncionarioDto;
         private readonly List<Funcionario> _listFuncionario;
         private readonly Faker _faker = new Faker();
 
@@ -74,13 +74,13 @@ namespace GestaoProjeto.Tests.Application
                                 .RuleFor(x => x.Id, f => f.Random.Guid())
                                 .Generate(2);           
 
-            _listFuncionarioDto = _listFuncionario.Select(x => new FuncionarioDto
+            _listFuncionarioDto = _listFuncionario.Select(x => new FuncionarioResponse
             {
                 FuncionarioId = x.Id,
                 Nome = x.Nome
             }).ToList();
 
-            _funcionarioDto = _listFuncionarioDto.FirstOrDefault() ?? new FuncionarioDto();
+            _funcionarioDto = _listFuncionarioDto.FirstOrDefault() ?? new FuncionarioResponse();
         }
 
 
@@ -204,7 +204,7 @@ namespace GestaoProjeto.Tests.Application
             var funcionarioId = _funcionario.Id;
 
             _funcionarioRepositoryMock.Setup(x => x.GetById(funcionarioId)).ReturnsAsync(_funcionario);
-            _mapperMock.Setup(mapper => mapper.Map<FuncionarioDto>(_funcionario)).Returns(_funcionarioDto);
+            _mapperMock.Setup(mapper => mapper.Map<FuncionarioResponse>(_funcionario)).Returns(_funcionarioDto);
 
             var result = await _funcionarioApplicationService.GetById(funcionarioId);
 
@@ -232,7 +232,7 @@ namespace GestaoProjeto.Tests.Application
             var funcionarioGrid = new FuncionarioGridRequest();            
 
             _funcionarioRepositoryMock.Setup(repo => repo.GetAll(It.IsAny<Expression<Func<Funcionario, bool>>>())).ReturnsAsync(_listFuncionario);           
-            _mapperMock.Setup(mapper => mapper.Map<ICollection<FuncionarioDto>>(It.IsAny<IQueryable<Funcionario>>())).Returns(_listFuncionarioDto);
+            _mapperMock.Setup(mapper => mapper.Map<ICollection<FuncionarioResponse>>(It.IsAny<IQueryable<Funcionario>>())).Returns(_listFuncionarioDto);
 
             var result = await _funcionarioApplicationService.GetAll(funcionarioGrid);
 
@@ -248,7 +248,7 @@ namespace GestaoProjeto.Tests.Application
             var funcionarioGrid = new FuncionarioGridRequest();
             funcionarioGrid.Nome = _faker.Person.FullName;
             _funcionarioRepositoryMock.Setup(repo => repo.GetAll(It.IsAny<Expression<Func<Funcionario, bool>>>())).ReturnsAsync(new List<Funcionario>());
-            _mapperMock.Setup(mapper => mapper.Map<ICollection<FuncionarioDto>>(It.IsAny<IQueryable<Funcionario>>())).Returns(new List<FuncionarioDto>());
+            _mapperMock.Setup(mapper => mapper.Map<ICollection<FuncionarioResponse>>(It.IsAny<IQueryable<Funcionario>>())).Returns(new List<FuncionarioResponse>());
 
             var result = await _funcionarioApplicationService.GetAll(funcionarioGrid);
 
